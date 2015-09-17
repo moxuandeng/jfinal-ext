@@ -19,12 +19,12 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 
 import com.jfinal.aop.Interceptor;
-import com.jfinal.core.ActionInvocation;
+import com.jfinal.aop.Invocation;
 
 public class ShiroInterceptor implements Interceptor {
 
 	@Override
-    public void intercept(ActionInvocation ai) {
+    public void intercept(Invocation ai) {
 		AuthzHandler ah = ShiroKit.getAuthzHandler(ai.getActionKey());
 		// 存在访问控制处理器。
 		if (ah != null) {

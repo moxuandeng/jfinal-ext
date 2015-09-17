@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.jfinal.aop.PrototypeInterceptor;
-import com.jfinal.core.ActionInvocation;
+import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -47,7 +47,7 @@ public abstract class PageInfoInterceptor extends PrototypeInterceptor {
     }
 
     @SuppressWarnings({ "rawtypes" })
-    public void doIntercept(ActionInvocation ai) {
+    public void doIntercept(Invocation ai) {
         config();
         Controller controller;
         controller = ai.getController();
