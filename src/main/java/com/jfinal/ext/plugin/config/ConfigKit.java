@@ -149,11 +149,11 @@ public class ConfigKit {
         return getInt(key, 0);
     }
 
-    public Boolean getBoolean(String key) {
-        return getBoolean(key, null);
+    public static boolean getBool(String key) {
+        return getBool(key, false);
     }
 
-    public Boolean getBoolean(String key, Boolean defaultValue) {
+    public static boolean getBool(String key, boolean defaultValue) {
         String val = getStr(key).trim();
         if ("".equals(val)) {
             return defaultValue;

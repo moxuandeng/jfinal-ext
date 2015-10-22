@@ -32,8 +32,7 @@ class CompositeAuthzHandler implements AuthzHandler {
 		this.authzHandlers = authzHandlers;
 	}
 
-	@Override
-    public void assertAuthorized() throws AuthorizationException {
+	public void assertAuthorized() throws AuthorizationException {
 		for(AuthzHandler authzHandler : authzHandlers){
 			authzHandler.assertAuthorized();
 		}
