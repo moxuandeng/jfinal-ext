@@ -1,7 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'eclipse'
-apply plugin: 'eclipse-wtp'
 
 
 tasks.withType(JavaCompile) {
@@ -32,8 +30,7 @@ idea {
 
 repositories {
     mavenLocal()
-    maven { url 'http://192.168.91.188:8083/nexus/content/repositories/beike/' }
-    maven { url 'http://maven.oschina.net/content/groups/public/' }
+    maven { url 'http://lab.9beike.com:8081/nexus/content/groups/public/' }
     mavenCentral()
 }
 
@@ -66,6 +63,9 @@ dependencies {
     provided 'org.apache.shiro:shiro-all:1.2.2'
     provided 'org.crazycake:shiro-redis:1.0.0-RELEASE'
     provided 'org.apache.commons:commons-lang3:3.1'
+
+    //tomcat jdbc pool
+    provided 'org.apache.tomcat:tomcat-jdbc:8.0.28'
 }
 
 //apply from: 'maven_push.gradle'
