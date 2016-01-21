@@ -15,16 +15,20 @@
  */
 package com.jfinal.ext.kit;
 
-import com.google.common.collect.Lists;
-import com.jfinal.config.*;
-import com.jfinal.log.Logger;
-import com.jfinal.plugin.IPlugin;
-
 import java.util.List;
+
+import com.google.common.collect.Lists;
+import com.jfinal.config.Constants;
+import com.jfinal.config.Handlers;
+import com.jfinal.config.Interceptors;
+import com.jfinal.config.Plugins;
+import com.jfinal.config.Routes;
+import com.jfinal.log.Log;
+import com.jfinal.plugin.IPlugin;
 
 public class JFinalKit {
 
-    protected static final Logger LOG = Logger.getLogger(JFinalKit.class);
+    protected static final Log LOG = Log.getLog(JFinalKit.class);
 
     static {
         init();

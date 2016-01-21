@@ -20,11 +20,10 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.jfinal.ext.kit.KeyLabel;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class AmChartsRender extends Render implements AmChartsConstans {
 
     public static int globalHeight = 600;
@@ -33,7 +32,7 @@ public class AmChartsRender extends Render implements AmChartsConstans {
 
     private static final String CONTENT_TYPE = "text/html;charset=" + getEncoding();
 
-    private Logger logger = Logger.getLogger(AmChartsRender.class);
+    private Log logger = Log.getLog(AmChartsRender.class);
 
     /** 数据源 */
     private List<?> data;
@@ -167,11 +166,11 @@ public class AmChartsRender extends Render implements AmChartsConstans {
         AmChartsRender.globalWidth = globalWidth;
     }
 
-    public Logger getLogger() {
+    public Log getLogger() {
         return logger;
     }
 
-    public void setLogger(Logger logger) {
+    public void setLogger(Log logger) {
         this.logger = logger;
     }
 

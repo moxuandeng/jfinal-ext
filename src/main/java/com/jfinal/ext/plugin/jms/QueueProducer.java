@@ -28,11 +28,11 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 
 public class QueueProducer {
 
-    protected final Logger logger = Logger.getLogger(getClass());
+    protected final Log logger = Log.getLog(getClass());
 
     protected String serverUrl;
     protected String username;

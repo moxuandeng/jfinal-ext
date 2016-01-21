@@ -15,24 +15,30 @@
  */
 package com.jfinal.ext.plugin.quartz;
 
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+
+import org.quartz.CronTrigger;
+import org.quartz.Job;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
+
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.jfinal.ext.kit.Reflect;
 import com.jfinal.ext.kit.ResourceKit;
 import com.jfinal.kit.StrKit;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 public class QuartzPlugin implements IPlugin {
     public static final String VERSION_1 = "1";
     private static final String JOB = "job";
-    private final Logger logger = Logger.getLogger(getClass());
+    private final Log logger = Log.getLog(getClass());
     private Map<Job, String> jobs = Maps.newLinkedHashMap();
     private String version;
     private SchedulerFactory sf;

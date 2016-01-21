@@ -15,24 +15,25 @@
  */
 package com.jfinal.ext.plugin.cron;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.jfinal.ext.kit.Reflect;
 import com.jfinal.ext.kit.ResourceKit;
 import com.jfinal.kit.StrKit;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
-import it.sauronsoftware.cron4j.Scheduler;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import it.sauronsoftware.cron4j.Scheduler;
 
 public class Cron4jPlugin implements IPlugin {
 
     private static final String JOB = "job";
 
-    private final Logger log = Logger.getLogger(getClass());
+    private final Log log = Log.getLog(getClass());
 
     private Map<Runnable, String> jobs = Maps.newLinkedHashMap();
 

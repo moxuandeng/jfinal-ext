@@ -19,11 +19,11 @@ import java.util.List;
 
 import com.jfinal.ext.kit.KeyLabel;
 import com.jfinal.kit.StrKit;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 
 public class CreateCharts {
 
-    protected static final Logger LOG = Logger.getLogger(CreateCharts.class);
+    protected static final Log LOG = Log.getLog(CreateCharts.class);
 
     // private static Configuration cfg;
 

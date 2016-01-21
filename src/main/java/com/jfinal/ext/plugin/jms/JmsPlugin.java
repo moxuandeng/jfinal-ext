@@ -15,19 +15,20 @@
  */
 package com.jfinal.ext.plugin.jms;
 
+import java.util.List;
+
+import javax.jms.MessageListener;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.ext.plugin.config.ConfigPlugin;
 import com.jfinal.kit.StrKit;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
-
-import javax.jms.MessageListener;
-import java.util.List;
 
 public class JmsPlugin implements IPlugin {
 
-    protected final Logger logger = Logger.getLogger(getClass());
+    protected final Log logger = Log.getLog(getClass());
 
     private String resoruceLocation = "jms.properties";
 

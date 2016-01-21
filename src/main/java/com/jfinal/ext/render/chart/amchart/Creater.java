@@ -15,16 +15,16 @@
  */
 package com.jfinal.ext.render.chart.amchart;
 
+import java.util.List;
+
 import com.jfinal.ext.kit.KeyLabel;
 import com.jfinal.kit.StrKit;
-import com.jfinal.log.Logger;
-
-import java.util.List;
+import com.jfinal.log.Log;
 
 public class Creater {
 
     public static boolean isFormat = true;
-    protected static final Logger LOG = Logger.getLogger(Creater.class);
+    protected static final Log LOG = Log.getLog(Creater.class);
 
     private Creater() {
     }

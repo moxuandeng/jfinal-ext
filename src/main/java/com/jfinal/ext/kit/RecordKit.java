@@ -15,18 +15,13 @@
  */
 package com.jfinal.ext.kit;
 
-import com.jfinal.log.Logger;
-import com.jfinal.plugin.activerecord.*;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
+import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Record;
 
 public class RecordKit {
 
-    protected final static Logger logger = Logger.getLogger(RecordKit.class);
+    protected final static Log logger = Log.getLog(RecordKit.class);
 
     public static Model<?> toModel(Class<? extends Model<?>> clazz, Record record) {
         Model<?> model = null;

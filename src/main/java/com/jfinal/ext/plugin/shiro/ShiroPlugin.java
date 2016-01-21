@@ -61,7 +61,7 @@ public class ShiroPlugin implements IPlugin {
 	private  String unauthorizedUrl ="/401.jsp";
 
 
-	private  final String SLASH = "/";
+	private  static final String SLASH = "/";
 
 	/**
 	 * Shiro的几种访问控制注解
@@ -86,14 +86,16 @@ public class ShiroPlugin implements IPlugin {
 	/**
 	 * 停止插件
 	 */
-	public boolean stop() {
+	@Override
+    public boolean stop() {
 		return true;
 	}
 
 	/**
 	 * 启动插件
 	 */
-	public boolean start() {
+	@Override
+    public boolean start() {
 		Set<String> excludedMethodName = buildExcludedMethodName();
 		ConcurrentMap<String, AuthzHandler> authzMaps = new ConcurrentHashMap<String, AuthzHandler>();
 		//逐个访问所有注册的Controller，解析Controller及action上的所有Shiro注解。

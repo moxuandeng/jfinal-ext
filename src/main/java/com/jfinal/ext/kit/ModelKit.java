@@ -15,29 +15,28 @@
  */
 package com.jfinal.ext.kit;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.jfinal.log.Logger;
-import com.jfinal.plugin.activerecord.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.DbKit;
+import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.Table;
+import com.jfinal.plugin.activerecord.TableMapping;
+
 public class ModelKit {
 
-    protected final static Logger logger = Logger.getLogger(ModelKit.class);
+    protected final static Log logger = Log.getLog(ModelKit.class);
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static Record toRecord(Model model) {
-        Record record = new Record();
-        Set<Entry<String, Object>> attrs = model.getAttrsEntrySet();
-        for (Entry<String, Object> entry : attrs) {
-            record.set(entry.getKey(), entry.getValue());
-        }
-        return record;
+    public static Record toRecord(Model<?> model) {
+        return model.toRecord();
     }
 
     @SuppressWarnings("rawtypes")
@@ -55,7 +54,7 @@ public class ModelKit {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static Map<String, Object> toMap(Model model) {
         Map<String, Object> map = Maps.newHashMap();
-        Set<Entry<String, Object>> attrs = model.getAttrsEntrySet();
+        Set<Entry<String, Object>> attrs = model._getAttrsEntrySet();
         for (Entry<String, Object> entry : attrs) {
             map.put(entry.getKey(), entry.getValue());
         }
@@ -111,7 +110,7 @@ public class ModelKit {
     @SuppressWarnings("rawtypes")
     public static void clone(Model src,Model desc){
         @SuppressWarnings("unchecked")
-        Set<Map.Entry<String, Object>> attrs =  src.getAttrsEntrySet();
+        Set<Map.Entry<String, Object>> attrs =  src._getAttrsEntrySet();
         for(Map.Entry<String,Object> attr:attrs){
             String key = attr.getKey();
             Object value = attr.getValue();
@@ -122,7 +121,7 @@ public class ModelKit {
         final int prime = 31;
         int result = 1;
         Table tableinfo = TableMapping.me().getTable(model.getClass());
-        Set<Entry<String, Object>> attrsEntrySet = model.getAttrsEntrySet();
+        Set<Entry<String, Object>> attrsEntrySet = model._getAttrsEntrySet();
         for (Entry<String, Object> entry : attrsEntrySet) {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -158,7 +157,7 @@ public class ModelKit {
             return false;
         Model<?> other = (Model<?>) obj;
         Table tableinfo = TableMapping.me().getTable(model.getClass());
-        Set<Entry<String, Object>> attrsEntrySet = model.getAttrsEntrySet();
+        Set<Entry<String, Object>> attrsEntrySet = model._getAttrsEntrySet();
         for (Entry<String, Object> entry : attrsEntrySet) {
             String key = entry.getKey();
             Object value = entry.getValue();

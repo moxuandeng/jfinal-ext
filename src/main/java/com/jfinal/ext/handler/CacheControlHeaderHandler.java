@@ -45,6 +45,6 @@ public class CacheControlHeaderHandler extends Handler {
 				response.setHeader("Cache-Control", "private");
 			}
 		}
-		nextHandler.handle(target, request, response, isHandled);
+		next.handle(target, request, response, isHandled);
 	}
 }

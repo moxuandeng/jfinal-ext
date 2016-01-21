@@ -15,20 +15,21 @@
  */
 package com.jfinal.ext.kit;
 
-import com.google.common.base.Throwables;
-import com.jfinal.log.Logger;
+import java.io.File;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.StringReader;
-import java.io.StringWriter;
+
+import com.google.common.base.Throwables;
+import com.jfinal.log.Log;
 
 public class JaxbKit {
 
-    protected final static Logger LOG = Logger.getLogger(JaxbKit.class);
+    protected final static Log LOG = Log.getLog(JaxbKit.class);
 
     /**
      * 

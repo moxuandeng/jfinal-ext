@@ -77,7 +77,6 @@ public class ExceptionInterceptor implements Interceptor {
         return exceptionRender;
     }
 
-    @SuppressWarnings("serial")
     private class DefaultExceptionRender extends ExceptionRender {
 
         public DefaultExceptionRender(String view) {

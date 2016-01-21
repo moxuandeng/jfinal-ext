@@ -20,16 +20,15 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.jfinal.ext.kit.KeyLabel;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 
-@SuppressWarnings("serial")
 public class FunshionChartsRender extends Render implements FunshionChartsConstans {
 
     private static final String CONTENT_TYPE = "text/html;charset=" + getEncoding();
 
-    protected final Logger logger = Logger.getLogger(getClass());
+    protected final Log logger = Log.getLog(getClass());
 
     private List<KeyLabel> pies;
 

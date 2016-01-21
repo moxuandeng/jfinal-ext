@@ -24,7 +24,8 @@ import com.jfinal.kit.StrKit;
 
 public class ShiroInterceptor implements Interceptor {
 
-	public void intercept(Invocation ai) {
+	@Override
+    public void intercept(Invocation ai) {
 		AuthzHandler ah = ShiroKit.getAuthzHandler(ai.getActionKey());
 		// 存在访问控制处理器。
 		if (ah != null) {

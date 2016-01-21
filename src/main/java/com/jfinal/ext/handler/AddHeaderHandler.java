@@ -47,6 +47,6 @@ public class AddHeaderHandler extends Handler {
                         + header.getClass());
             }
         }
-        nextHandler.handle(target, request, response, isHandled);
+        next.handle(target, request, response, isHandled);
     }
 }

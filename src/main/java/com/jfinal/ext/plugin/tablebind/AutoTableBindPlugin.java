@@ -15,24 +15,25 @@
  */
 package com.jfinal.ext.plugin.tablebind;
 
+import java.io.File;
+import java.util.List;
+
+import javax.sql.DataSource;
+
 import com.google.common.collect.Lists;
 import com.jfinal.ext.kit.ClassSearcher;
 import com.jfinal.ext.kit.Reflect;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.IDataSourceProvider;
 import com.jfinal.plugin.activerecord.Model;
 
-import javax.sql.DataSource;
-import java.io.File;
-import java.util.List;
-
 public class AutoTableBindPlugin extends ActiveRecordPlugin {
 
-    protected final Logger log = Logger.getLogger(getClass());
+    protected final Log log = Log.getLog(getClass());
 
     @SuppressWarnings("rawtypes")
     private List<Class<? extends Model>> excludeClasses = Lists.newArrayList();
