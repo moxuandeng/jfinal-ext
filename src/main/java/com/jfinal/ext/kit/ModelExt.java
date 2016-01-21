@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2011-2013, kidzhou 周磊 (zhouleib1412@gmail.com)
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,10 @@ package com.jfinal.ext.kit;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.jfinal.ext.interceptor.CallbackListener;
-import com.jfinal.ext.interceptor.pageinfo.Parent;
-import com.jfinal.plugin.activerecord.*;
+import com.jfinal.plugin.activerecord.ActiveRecordException;
+import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Table;
+import com.jfinal.plugin.activerecord.TableMapping;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -105,74 +107,18 @@ public class ModelExt<M extends ModelExt<M>> extends Model<M> {
 
     }
 
-    @Override
-    public boolean deleteById(Object id) {
-        Table tableInfo = TableMapping.me().getTable(clazz);
-        for (CallbackListener callbackListener : callbackListeners) {
-            callbackListener.beforeDelete(this);
-        }
-        boolean result ;
-        if (pseudoDelete()) {
-            if (!tableInfo.hasColumnLabel(deleteColumnLabel)) {
-                throw new ActiveRecordException("The deleteColumnLabel (" + deleteColumnLabel + ") is not exist");
-            }
-            String pKey = tableInfo.getPrimaryKey();
-            if (id == null)
-                throw new ActiveRecordException("You can't update model without Primary Key.");
-            String sql = "update "+tableInfo.getName()+" set "+deleteColumnLabel+" = 1 where "+pKey+" = ?";
-            result = Db.update(sql,id)>=1;
-        } else {
-            result = super.deleteById(id);
-        }
-        for (CallbackListener callbackListener : callbackListeners) {
-            callbackListener.afterDelete(this);
-        }
-        return result;
-    }
-
-    public int deleteAll() {
-        String primaryKey = TableMapping.me().getTable(clazz).getPrimaryKey();
-        return Db.update("delete from " + tableName() + " where " + primaryKey + "=?");
-    }
-
-    public int deleteByColumn(String column, Object value) {
-        return deleteByColumns(Lists.newArrayList(column), Lists.newArrayList(value));
-    }
-
-    public int deleteByColumns(List<String> columns, List<Object> values) {
-        Preconditions.checkArgument(columns.size() > 0, "columns is empty");
-        Preconditions.checkArgument(values.size() > 0, "values is empty");
-        Preconditions.checkArgument(values.size() == columns.size(), "column size != values size");
-        String sql="";
-        Table tableInfo = TableMapping.me().getTable(clazz);
-        if (pseudoDelete()) {
-            if (!tableInfo.hasColumnLabel(deleteColumnLabel)) {
-                throw new ActiveRecordException("The deleteColumnLabel (" + deleteColumnLabel + ") is not exist");
-            }
-            String pKey = tableInfo.getPrimaryKey();
-            sql+= "update "+tableInfo.getName()+" set "+deleteColumnLabel+" = 1";
-        }else{
-            sql+= "delete from " + tableInfo.getName() ;
-        }
-        sql+=" where 1=1";
-        for (String column : columns) {
-            sql += " and " + column + " = ?";
-        }
-        return Db.update(sql, values.toArray());
-    }
-
     public List<M> findAll() {
-        String sql ="select * from " + tableName();
-        if(pseudoDelete()){
-            sql+=" where "+deleteColumnLabel+" is null or "+deleteColumnLabel+" !=1 ";
+        String sql = "select * from " + tableName();
+        if (pseudoDelete()) {
+            sql += " where " + deleteColumnLabel + " is null or " + deleteColumnLabel + " !=1 ";
         }
         return find(sql);
     }
 
     public List<M> findBySecurity() {
-        String sql ="select * from " + tableName();
-        if(pseudoDelete()){
-            sql+=" where "+deleteColumnLabel+" is null or "+deleteColumnLabel+" !=1 ";
+        String sql = "select * from " + tableName();
+        if (pseudoDelete()) {
+            sql += " where " + deleteColumnLabel + " is null or " + deleteColumnLabel + " !=1 ";
         }
         return find(sql);
     }
@@ -196,44 +142,13 @@ public class ModelExt<M extends ModelExt<M>> extends Model<M> {
         Preconditions.checkArgument(values.size() > 0, "values is empty");
         Preconditions.checkArgument(values.size() == columns.size(), "column size != values size");
         String sql = "select * from " + tableName() + " where 1=1";
-        if(pseudoDelete()){
-            sql += " and "+deleteColumnLabel+" is null or "+deleteColumnLabel+" !=1 ";
+        if (pseudoDelete()) {
+            sql += " and " + deleteColumnLabel + " is null or " + deleteColumnLabel + " !=1 ";
         }
         for (String column : columns) {
             sql += " and " + column + " = ?";
         }
         return find(sql, values.toArray());
-    }
-    
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List<M> children(Class<? extends Model> model) {
-        Parent child = model.getAnnotation(Parent.class);
-        String foreignKey = child.foreignKey();
-        Class<? extends Model> childModel = child.model();
-        String childTableName = TableMapping.me().getTable(childModel).getName();
-        String primaryKey = TableMapping.me().getTable(clazz).getPrimaryKey();
-        try {
-            return childModel.newInstance().find("select * from " + childTableName + " where " + foreignKey + "= ?",
-                    get(primaryKey));
-        } catch (Exception e) {
-            throw new ActiveRecordException(e.getMessage(), e);
-        }
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public M parent(Class<? extends Model> model) {
-        Parent parent = model.getAnnotation(Parent.class);
-        String foreignKey = parent.foreignKey();
-        Class<? extends Model> parentModel = parent.model();
-        String parentTableName = TableMapping.me().getTable(parentModel).getName();
-        String primaryKey = TableMapping.me().getTable(clazz).getPrimaryKey();
-        try {
-            return (M) parentModel.newInstance().findFirst(
-                    "select * from " + parentTableName + " where " + foreignKey + "= ?", get(primaryKey));
-        } catch (Exception e) {
-            throw new ActiveRecordException(e.getMessage(), e);
-        }
     }
 
     private String tableName() {

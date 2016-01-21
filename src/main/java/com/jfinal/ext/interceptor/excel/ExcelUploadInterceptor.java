@@ -17,7 +17,7 @@ package com.jfinal.ext.interceptor.excel;
 
 import com.google.common.collect.Lists;
 import com.jfinal.aop.PrototypeInterceptor;
-import com.jfinal.core.ActionInvocation;
+import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.ext.kit.Reflect;
 import com.jfinal.ext.kit.excel.PoiImporter;
@@ -50,7 +50,7 @@ public abstract class ExcelUploadInterceptor<M extends Model<?>> extends Prototy
     }
 
     @SuppressWarnings({"rawtypes"})
-    public void doIntercept(ActionInvocation ai) {
+    public void doIntercept(Invocation ai) {
         rule = configRule();
         Controller controller = ai.getController();
         List<Model<?>> list = PoiImporter.processSheet(controller.getFile().getFile(), rule, clazz);

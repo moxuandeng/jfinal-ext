@@ -44,7 +44,24 @@ import com.jfinal.plugin.IPlugin;
 @SuppressWarnings("unchecked")
 public class ShiroPlugin implements IPlugin {
 
-	private static final String SLASH = "/";
+	/**
+	 * 登录成功时所用的页面。
+	 */
+	private  String successUrl = "/";
+
+	/**
+	 * 登录成功时所用的页面。
+	 */
+	private  String loginUrl = "/";
+
+
+	/**
+	 * 登录成功时所用的页面。
+	 */
+	private  String unauthorizedUrl ="/401.jsp";
+
+
+	private  final String SLASH = "/";
 
 	/**
 	 * Shiro的几种访问控制注解
@@ -69,16 +86,14 @@ public class ShiroPlugin implements IPlugin {
 	/**
 	 * 停止插件
 	 */
-	@Override
-    public boolean stop() {
+	public boolean stop() {
 		return true;
 	}
 
 	/**
 	 * 启动插件
 	 */
-	@Override
-    public boolean start() {
+	public boolean start() {
 		Set<String> excludedMethodName = buildExcludedMethodName();
 		ConcurrentMap<String, AuthzHandler> authzMaps = new ConcurrentHashMap<String, AuthzHandler>();
 		//逐个访问所有注册的Controller，解析Controller及action上的所有Shiro注解。
@@ -118,6 +133,12 @@ public class ShiroPlugin implements IPlugin {
 		}
 		//注入到ShiroKit类中。ShiroKit类以单例模式运行。
 		ShiroKit.init(authzMaps);
+		/**
+		 * 设定登录，登录成功，未授权等url地址
+		 */
+		ShiroKit.setLoginUrl(loginUrl);
+		ShiroKit.setSuccessUrl(successUrl);
+		ShiroKit.setUnauthorizedUrl(unauthorizedUrl);
 		return true;
 	}
 
@@ -279,5 +300,29 @@ public class ShiroPlugin implements IPlugin {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 登录成功连接
+	 * @param successUrl
+	 */
+	public final void setSuccessUrl(String successUrl) {
+		this.successUrl = successUrl;
+	}
+
+	/**
+	 * 登录连接
+	 * @param loginUrl
+	 */
+	public final void setLoginUrl(String loginUrl) {
+		this.loginUrl = loginUrl;
+	}
+
+	/**
+	 * 未授权连接
+	 * @param unauthorizedUrl
+	 */
+	public final void setUnauthorizedUrl(String unauthorizedUrl) {
+		this.unauthorizedUrl = unauthorizedUrl;
 	}
 }
